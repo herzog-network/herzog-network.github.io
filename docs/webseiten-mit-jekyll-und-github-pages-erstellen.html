@@ -6,7 +6,7 @@
 
   <title>
     
-      Jekyll und Github Pages: Deine erste Webseite &middot; Blog @ herzog.network
+      Jekyll und GitHub Pages: Deine erste Webseite &middot; Blog @ herzog.network
     
   </title>
 
@@ -17,11 +17,11 @@
 
   <!-- Begin Jekyll SEO tag v2.6.1 -->
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Jekyll und Github Pages: Deine erste Webseite" />
+<meta property="og:title" content="Jekyll und GitHub Pages: Deine erste Webseite" />
 <meta name="author" content="herzog" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über Github Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste." />
-<meta property="og:description" content="Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über Github Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste." />
+<meta name="description" content="Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über GitHub Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste." />
+<meta property="og:description" content="Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über GitHub Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste." />
 <link rel="canonical" href="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen" />
 <meta property="og:url" content="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen" />
 <meta property="og:site_name" content="Blog @ herzog.network" />
@@ -29,7 +29,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-12-14T12:30:00+00:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","headline":"Jekyll und Github Pages: Deine erste Webseite","dateModified":"2020-12-14T12:30:00+00:00","datePublished":"2020-12-14T12:30:00+00:00","image":"https://blog.herzog.network/assets/images/featured/jekyll.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen"},"url":"https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen","author":{"@type":"Person","name":"herzog"},"description":"Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über Github Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","headline":"Jekyll und GitHub Pages: Deine erste Webseite","dateModified":"2020-12-14T12:30:00+00:00","datePublished":"2020-12-14T12:30:00+00:00","image":"https://blog.herzog.network/assets/images/featured/jekyll.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen"},"url":"https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen","author":{"@type":"Person","name":"herzog"},"description":"Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über GitHub Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link type="application/atom+xml" rel="alternate" href="https://blog.herzog.network/feed.xml" title="Blog @ herzog.network" />
@@ -56,15 +56,15 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Jekyll und Github Pages: Deine erste Webseite</h1>
+  <h1 class="post-title">Jekyll und GitHub Pages: Deine erste Webseite</h1>
   <time datetime="2020-12-14T12:30:00+00:00" class="post-date">14 Dec 2020</time>
-  <p>Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch <a href="https://jekyllrb.com/">Jekyll</a> generiert und über <a href="https://pages.github.com/">Github Pages</a> veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.</p>
+  <p>Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch <a href="https://jekyllrb.com/">Jekyll</a> generiert und über <a href="https://pages.github.com/">GitHub Pages</a> veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.</p>
 
 <h3 id="übersicht">Übersicht</h3>
 
 <ul>
   <li><a href="#definitionen">Definitionen</a></li>
-  <li><a href="#github-account">Erstellen eines Github Account</a></li>
+  <li><a href="#github-account">Erstellen eines GitHub Account</a></li>
   <li><a href="#github-repository">Erstellen einer Repository</a></li>
   <li><a href="#erste-schritte">Erste Schritte</a></li>
   <li><a href="#benutzerdefinierte-domain">Benutzerdefinierte Domain</a></li>
@@ -79,36 +79,36 @@
 
 <p><a href="https://jekyllrb.com/">Jekyll</a> ist ein einfacher, Blog-fähiger, statischer Site-Generator und generiert aus einem Vorlagenverzeichnis mit unformatierten Textdateien in verschiedenen Formaten über einen Konverter (wie Markdown) und einen Liquid-Renderer eine vollständige, einsatzbereite statische Website, die für die Bereitstellung mit einem Webserver geeignet ist. Jekyll ist auch die Engine hinter GitHub Pages. Das bedeutet, dass Jekyll verwendet werden kann, um eine Webseite oder einen Blog kostenlos von den GitHub-Servern zu hosten.</p>
 
-<h4 id="git--github">Git / Github</h4>
+<h4 id="git--github">Git / GitHub</h4>
 
 <p><a href="https://git-scm.com/">Git</a> ist ein verteiltes Versionsverwaltungssystem. Die Besonderheit des Tools besteht darin, dass zwar ein zentrales Repository für jedes Projekt existiert, alle beteiligten Nutzer sich aber eine lokale Arbeitskopie dieses Verzeichnisses auf das eigene Arbeitsgerät herunterladen. Vorgenommene Änderungen können jederzeit mit allen anderen Projektteilnehmern ausgetauscht und – sofern relevant – in das Repository aufgenommen werden.</p>
 
-<p><a href="https://github.com/">Github</a> ist eine Plattform, in der Git-Projekte verwaltet und aufbewahrt werden können.</p>
+<p><a href="https://github.com/">GitHub</a> ist eine Plattform, in der Git-Projekte verwaltet und aufbewahrt werden können.</p>
 
-<h4 id="github-pages">Github Pages</h4>
+<h4 id="github-pages">GitHub Pages</h4>
 
-<p><a href="https://pages.github.com/">Github Pages</a> ermöglichen die Erstellung von Webseiten aus einem GitHub-Repository heraus. Praktisch um schnell sein Unternehmen zu präsentieren, einen Blog zu betreiben oder ausführlich über sein neues Projekt zu berichten.</p>
+<p><a href="https://pages.github.com/">GitHub Pages</a> ermöglichen die Erstellung von Webseiten aus einem GitHub-Repository heraus. Praktisch um schnell sein Unternehmen zu präsentieren, einen Blog zu betreiben oder ausführlich über sein neues Projekt zu berichten.</p>
 
-<h3 id="github-account">Github Account</h3>
+<h3 id="github-account">GitHub Account</h3>
 
 <p>Als erstes wird ein kostenloses Benutzerkonto eingerichtet. Unter <a href="https://github.com">github.com</a>, wählt man unter “Sign Up” einen noch unbenutzten Usernamen, gibt eine E-Mail-Adresse und ein Passwort ein und klickt auf die Schaltfläche “Create Account”. Weitere Informationen, um zum Beispiel eine 2 Faktor Authentifizierung zu konfigurieren oder seine Biografie zu bearbeiten, können der <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/signing-up-for-a-new-github-account">Dokumentation entnommen werden</a>.</p>
 
-<h3 id="github-repository">Github Repository</h3>
+<h3 id="github-repository">GitHub Repository</h3>
 
-<p>Wenn der Account erfolgreich erstellt wurde muss auf Github noch eine Repository erstellt werden. Wie eine Repository erstellt wird ist in der <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/create-a-repo">Github Dokumentation beschrieben</a>, welche Werte für die Github Pages Repository relevant sind, kann dieser <a href="https://pages.github.com/">Dokumentation</a> entnommen werden. Wichtig ist hierbei, dass der <strong>username</strong> der Repository <strong>username</strong>.github.io mit dem erstellten Usernamen aus dem vorherigen Schritt übereinstimmt, da Github Pages sonst nicht funktionieren wird.</p>
+<p>Wenn der Account erfolgreich erstellt wurde muss auf GitHub noch eine Repository erstellt werden. Wie eine Repository erstellt wird ist in der <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/create-a-repo">GitHub Dokumentation beschrieben</a>, welche Werte für die GitHub Pages Repository relevant sind, kann dieser <a href="https://pages.github.com/">Dokumentation</a> entnommen werden. Wichtig ist hierbei, dass der <strong>username</strong> der Repository <strong>username</strong>.github.io mit dem erstellten Usernamen aus dem vorherigen Schritt übereinstimmt, da GitHub Pages sonst nicht funktionieren wird.</p>
 
 <h3 id="erste-schritte">Erste Schritte</h3>
 
 <p>Grundlegend ist ab diesem Punkt die Webseite einsatzbereit, sobald man eine entsprechende Index Datei in die Repository lädt. Sofern <a href="https://git-scm.com/">Git</a> auf dem lokalen Rechner installiert ist kann mit folgenden Kommandos in einem Terminal eine Webseite erstellt werden:</p>
 
-<p>Github Repository lokal ablegen um damit zu arbeiten:</p>
+<p>GitHub Repository lokal ablegen um damit zu arbeiten:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/username/username.github.io
 </code></pre></div></div>
 <p>Jetzt können wir in die geklonte Repository wechseln und eine index.html Datei anlegen:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd username.github.io  
 echo "Hello World" &gt; index.html
 </code></pre></div></div>
-<p>Abschließend müssen diese Änderungen wieder in die Github Repository übertragen werden:</p>
+<p>Abschließend müssen diese Änderungen wieder in die GitHub Repository übertragen werden:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add --all
 git commit -m "Initial commit"
 git push -u origin main
@@ -132,7 +132,7 @@ blog.herzog.network.    60      IN      CNAME   herzog-network.github.io.
 
 <p>[dig - Wikipedia Beschreibung](https://en.wikipedia.org/wiki/Dig_(command)</p>
 
-<p>Bevor der CNAME gesetzt wird sollte die Github Repository angepasst werden. In den Einstellungen der Respository kann eine custom domain konfiguriert werden.</p>
+<p>Bevor der CNAME gesetzt wird sollte die GitHub Repository angepasst werden. In den Einstellungen der Respository kann eine custom domain konfiguriert werden.</p>
 
 <p><img src="/assets/images/posts/custom_domain.png" alt="custom_domain" title="Custom domain" /></p>
 
@@ -195,7 +195,7 @@ docker run -p 8080:4000 -v $(pwd):/site bretfisher/jekyll-serve
 
 <h3 id="veröffentlichen">Veröffentlichen</h3>
 
-<p>Zum Abschluss muss das in den letzten Schritten erstellte Template wieder in die Github Repository geladen werden, damit die Webseite über die in Github integrierte Jekyll Funktionalität generiert werden kann und danach über die gewünschte Domain erreichbar ist. Github unterstützt nicht alle Jekyll Plugins, wenn also ein Plugin in der lokalen Testumgebung funktioniert aber nicht über Github Pages, dann kann es daran liegen, dass es nicht untersützt wird. Ein Workaround dafür wäre, das <code class="language-plaintext highlighter-rouge">_site</code> Verzeichnis auch zu veröffentlichen und Github nicht das Generieren der Webseite übernehmen zu lassen.</p>
+<p>Zum Abschluss muss das in den letzten Schritten erstellte Template wieder in die GitHub Repository geladen werden, damit die Webseite über die in GitHub integrierte Jekyll Funktionalität generiert werden kann und danach über die gewünschte Domain erreichbar ist. GitHub unterstützt nicht alle Jekyll Plugins, wenn also ein Plugin in der lokalen Testumgebung funktioniert aber nicht über GitHub Pages, dann kann es daran liegen, dass es nicht untersützt wird. Ein Workaround dafür wäre, das <code class="language-plaintext highlighter-rouge">_site</code> Verzeichnis auch zu veröffentlichen und GitHub nicht das Generieren der Webseite übernehmen zu lassen.</p>
 
 <p>In dem Jekyll Template, welches wir generiert haben, befindet sich keine Git Konfiguration. Diese können wir aus dem Ordner kopieren, den wir uns ganz am Anfang, in dem Abschnitt <a href="#erste-schritte">Erste Schritte</a>, erstellt haben.</p>
 
@@ -232,6 +232,13 @@ herzog</p>
   <ul class="related-posts">
     
       <li>
+        <a href="/jekyll-und-github-actions-source-code-in-private-repository-auslagern">
+          Jekyll und GitHub Actions: Source Code in private Repository auslagern
+          <small><time datetime="2020-12-19T00:00:00+00:00">19 Dec 2020</time></small>
+        </a>
+      </li>
+    
+      <li>
         <a href="/hallo-herzog-network">
           Hallo herzog.network !
           <small><time datetime="2020-12-14T11:30:00+00:00">14 Dec 2020</time></small>
@@ -247,7 +254,7 @@ herzog</p>
       <footer class="footer">
         <small>
           &copy;
-          <time datetime="2020-12-19T05:20:12+00:00"
+          <time datetime="2020-12-19T18:05:05+00:00"
             >2020</time
           >. All rights reserved.
         </small>
