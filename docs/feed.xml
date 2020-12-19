@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.herzog.network/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.herzog.network/" rel="alternate" type="text/html" /><updated>2020-12-19T05:20:12+00:00</updated><id>https://blog.herzog.network/feed.xml</id><title type="html">Blog @ herzog.network</title><author><name>herzog</name><email>blog@herzog.network</email></author><entry><title type="html">Jekyll und Github Pages: Deine erste Webseite</title><link href="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen" rel="alternate" type="text/html" title="Jekyll und Github Pages: Deine erste Webseite" /><published>2020-12-14T12:30:00+00:00</published><updated>2020-12-14T12:30:00+00:00</updated><id>https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen</id><content type="html" xml:base="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen">&lt;p&gt;Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; generiert und über &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.&lt;/p&gt;
+
+&lt;h3 id=&quot;übersicht&quot;&gt;Übersicht&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#definitionen&quot;&gt;Definitionen&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#github-account&quot;&gt;Erstellen eines Github Account&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#github-repository&quot;&gt;Erstellen einer Repository&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#erste-schritte&quot;&gt;Erste Schritte&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#benutzerdefinierte-domain&quot;&gt;Benutzerdefinierte Domain&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#lokaler-jekyll-server&quot;&gt;Lokaler Jekyll Server via Docker&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#anpassungen&quot;&gt;Anpassungen (Design, Strukur, Twitter Connector)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#veröffentlichen&quot;&gt;Webseite veröffentlichen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;definitionen&quot;&gt;Definitionen&lt;/h3&gt;
+
+&lt;h4 id=&quot;jekyll&quot;&gt;Jekyll&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; ist ein einfacher, Blog-fähiger, statischer Site-Generator und generiert aus einem Vorlagenverzeichnis mit unformatierten Textdateien in verschiedenen Formaten über einen Konverter (wie Markdown) und einen Liquid-Renderer eine vollständige, einsatzbereite statische Website, die für die Bereitstellung mit einem Webserver geeignet ist. Jekyll ist auch die Engine hinter GitHub Pages. Das bedeutet, dass Jekyll verwendet werden kann, um eine Webseite oder einen Blog kostenlos von den GitHub-Servern zu hosten.&lt;/p&gt;
+
+&lt;h4 id=&quot;git--github&quot;&gt;Git / Github&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://git-scm.com/&quot;&gt;Git&lt;/a&gt; ist ein verteiltes Versionsverwaltungssystem. Die Besonderheit des Tools besteht darin, dass zwar ein zentrales Repository für jedes Projekt existiert, alle beteiligten Nutzer sich aber eine lokale Arbeitskopie dieses Verzeichnisses auf das eigene Arbeitsgerät herunterladen. Vorgenommene Änderungen können jederzeit mit allen anderen Projektteilnehmern ausgetauscht und – sofern relevant – in das Repository aufgenommen werden.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt; ist eine Plattform, in der Git-Projekte verwaltet und aufbewahrt werden können.&lt;/p&gt;
+
+&lt;h4 id=&quot;github-pages&quot;&gt;Github Pages&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; ermöglichen die Erstellung von Webseiten aus einem GitHub-Repository heraus. Praktisch um schnell sein Unternehmen zu präsentieren, einen Blog zu betreiben oder ausführlich über sein neues Projekt zu berichten.&lt;/p&gt;
+
+&lt;h3 id=&quot;github-account&quot;&gt;Github Account&lt;/h3&gt;
+
+&lt;p&gt;Als erstes wird ein kostenloses Benutzerkonto eingerichtet. Unter &lt;a href=&quot;https://github.com&quot;&gt;github.com&lt;/a&gt;, wählt man unter “Sign Up” einen noch unbenutzten Usernamen, gibt eine E-Mail-Adresse und ein Passwort ein und klickt auf die Schaltfläche “Create Account”. Weitere Informationen, um zum Beispiel eine 2 Faktor Authentifizierung zu konfigurieren oder seine Biografie zu bearbeiten, können der &lt;a href=&quot;https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/signing-up-for-a-new-github-account&quot;&gt;Dokumentation entnommen werden&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;github-repository&quot;&gt;Github Repository&lt;/h3&gt;
+
+&lt;p&gt;Wenn der Account erfolgreich erstellt wurde muss auf Github noch eine Repository erstellt werden. Wie eine Repository erstellt wird ist in der &lt;a href=&quot;https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/create-a-repo&quot;&gt;Github Dokumentation beschrieben&lt;/a&gt;, welche Werte für die Github Pages Repository relevant sind, kann dieser &lt;a href=&quot;https://pages.github.com/&quot;&gt;Dokumentation&lt;/a&gt; entnommen werden. Wichtig ist hierbei, dass der &lt;strong&gt;username&lt;/strong&gt; der Repository &lt;strong&gt;username&lt;/strong&gt;.github.io mit dem erstellten Usernamen aus dem vorherigen Schritt übereinstimmt, da Github Pages sonst nicht funktionieren wird.&lt;/p&gt;
+
+&lt;h3 id=&quot;erste-schritte&quot;&gt;Erste Schritte&lt;/h3&gt;
+
+&lt;p&gt;Grundlegend ist ab diesem Punkt die Webseite einsatzbereit, sobald man eine entsprechende Index Datei in die Repository lädt. Sofern &lt;a href=&quot;https://git-scm.com/&quot;&gt;Git&lt;/a&gt; auf dem lokalen Rechner installiert ist kann mit folgenden Kommandos in einem Terminal eine Webseite erstellt werden:&lt;/p&gt;
+
+&lt;p&gt;Github Repository lokal ablegen um damit zu arbeiten:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/username/username.github.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Jetzt können wir in die geklonte Repository wechseln und eine index.html Datei anlegen:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd username.github.io  
+echo &quot;Hello World&quot; &amp;gt; index.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Abschließend müssen diese Änderungen wieder in die Github Repository übertragen werden:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add --all
+git commit -m &quot;Initial commit&quot;
+git push -u origin main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Damit ist die Webseite einsatzbereit und kann über die URL:&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://username.github.io&lt;/code&gt; aufgerufen werden.&lt;/p&gt;
+
+&lt;h3 id=&quot;benutzerdefinierte-domain&quot;&gt;Benutzerdefinierte Domain&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Make sure you add your custom domain to your GitHub Pages site before configuring your custom domain with your DNS provider. Configuring your custom domain with your DNS provider without adding your custom domain to GitHub could result in someone else being able to host a site on one of your subdomains.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In den meisten Fällen will man die Webseite unter einer eigenen Domain bereitstellen. Dafür kommen sogenannte Custom Domains zum Einsatz. Momentan ist unsere Webseite nur über &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://username.github.io&lt;/code&gt; erreichbar. Um die Webseite z.B. auch über &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://blog.herzog.network&lt;/code&gt; erreichbar zu machen müssen wir auf die DNS Einträge der Domain Zugriff haben, für die wir eine Adresse erstellen wollen. Es muss ein CNAME für die gewünschte Domain erstellt werden. Da sich dies bei den DNS Anbietern unterscheidet kann man keine allgemeingütlige Anleitung schreiben, die meisten DNS Anbieter haben dafür aber FAQ Artikel oder man kann sich die Informationen beim Support einholen.&lt;/p&gt;
+
+&lt;p&gt;Ein richtig gesetzter CNAME kann z.B. mit dem Befehl &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dig blog.herzog.network&lt;/code&gt; abgefragt werden und würde folgendermaßen aussehen:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;; ANSWER SECTION:
+blog.herzog.network.    60      IN      CNAME   herzog-network.github.io.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;[dig - Wikipedia Beschreibung](https://en.wikipedia.org/wiki/Dig_(command)&lt;/p&gt;
+
+&lt;p&gt;Bevor der CNAME gesetzt wird sollte die Github Repository angepasst werden. In den Einstellungen der Respository kann eine custom domain konfiguriert werden.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/custom_domain.png&quot; alt=&quot;custom_domain&quot; title=&quot;Custom domain&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sobald die Custom Domain erfolgreich publiziert wurde und die Webseite über die neue Domain erreichbar ist kann auch noch HTTPS erzwungen werden. Detailliertere Informationen können den &lt;a href=&quot;https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site&quot;&gt;Docs entnommen&lt;/a&gt; werden.&lt;/p&gt;
+
+&lt;h3 id=&quot;lokaler-jekyll-server&quot;&gt;Lokaler Jekyll Server&lt;/h3&gt;
+
+&lt;p&gt;Da wir Jekyll als Site-Generator einsetzen brauchen wir auch eine lokale Umgebung, um Änderungen vorab testen zu können, bevor wir sie in die Repository übertragen und damit Live schalten. Ich habe mich entschieden die Entwicklungsumgebung in einem Docker Container bereitzustellen. Auf die Installation und Konfiguration von Docker kann ich in diesem Artikel nicht eingehen, da es den Rahmen sprengen würde aber folgende Schritte sollten ausreichen:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Installation von &lt;a href=&quot;https://www.docker.com/products/docker-desktop&quot;&gt;Docker Desktop&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Erstellen einer Webseite mit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Jekyll new&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Bereitstellen des lokalen Jekyll Server&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Ich nutze die Docker Container von &lt;a href=&quot;https://github.com/BretFisher/jekyll-serve&quot;&gt;BretFisher&lt;/a&gt;. Nachdem Docker Desktop installiert ist kann mit folgendem Befehl eine neue Webseite erstellt werden:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd to empty directory
+docker run -v $(pwd):/site bretfisher/jekyll new .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Dadurch wird ein Grundtemplate innerhalb des Ordner, in dem man sich befindet, angelegt. Dieses Template enthält Beispielbeiträge, ein minimales Theme und die wichtigsten Dateien, die von Jekyll benötigt werden.&lt;/p&gt;
+
+&lt;p&gt;Dieses Template kann nun nach belieben verändert werden. Um die Änderungen zu sehen verwendet man &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll-serv&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd dir/of/your/jekyll/site
+docker run -p 8080:4000 -v $(pwd):/site bretfisher/jekyll-serve
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Und kann dann über einen Browser unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost:8080&lt;/code&gt; die von Jekyll generierte Webseite abrufen.&lt;/p&gt;
+
+&lt;h3 id=&quot;anpassungen&quot;&gt;Anpassungen&lt;/h3&gt;
+
+&lt;p&gt;Das Design von Jekyll Webseiten kann nach Belieben verändert werden, es gibt diverse Themes, die im Internet heruntergeladen werden können und die sich übertragen lassen. Für den Blog nutze ich aktuell &lt;a href=&quot;https://andrewhwanpark.github.io/dark-poole/&quot;&gt;dark-poole&lt;/a&gt; mit leicht angepasstem Code, dies wird als Grundlage dienen und in Zukunft weiter ausgebaut.&lt;/p&gt;
+
+&lt;p&gt;Um einen neuen Jekyll Beitrag zu erstellen wird einfach eine neue Markdown oder HMTL Datei im Ordner _posts erstellt. Wichtig ist hierbei, dass der Dateiname ein bestimmtes Format aufweisen muss. Informationen dazu sind den &lt;a href=&quot;https://jekyllrb.com/docs/posts/&quot;&gt;Docs zu entnehmen&lt;/a&gt;. Ein Beispielbeitrag würde folgendermaßen aussehen:   &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2020-12-14-how-to-write-a-blog.md&lt;/code&gt;, da die Syntax des Dateinamen so aussehen muss: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bilder und Anhänge werden im Ordner &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_assets&lt;/code&gt; abgelegt, die Hauptkonfiguration für z.B. für die genutzten Plugins, den Titel der Webseite, die E-Mail Adresse und Autoren, Permalink Einstellungen, Base URL und so weiter wird über die Datei &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; vorgenommen.&lt;/p&gt;
+
+&lt;p&gt;Die Hauptstruktur sieht wie folgt aus:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;_data: Diverse Dateien, Archive und so weiter können hier abgelegt werden&lt;/li&gt;
+  &lt;li&gt;_drafts: Für Beiträge die noch nicht veröffentlicht werden sollen. Kann über .gitignore ausgeschlossen werden&lt;/li&gt;
+  &lt;li&gt;_includes: Jekylls Includes - Wiederverwendbare HTML Komponenten&lt;/li&gt;
+  &lt;li&gt;_layouts: HTML Layout zur Struktur der Webseite&lt;/li&gt;
+  &lt;li&gt;_posts: Alle Beiträge die veröffentlicht werden&lt;/li&gt;
+  &lt;li&gt;_sass: Sass (Syntactically Awesome Stylesheets) gehört in diesem Ordner&lt;/li&gt;
+  &lt;li&gt;_site: Das automatisch generierte Build-Verzeichnis von Jekyll, in dem sich die kompilierte Webseite befindet. Dieser Ordner wird nicht an GitHub gesendet, da er sich in .gitignore befindet.&lt;/li&gt;
+  &lt;li&gt;_assets: Hauptsächlich zum Speichern von Bildern und Skripten, kann aber auch eine Main-CSS-Datei enthalten.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You may be wondering why all of these directory names are prefixed by an underscore. A directory with a leading underscore is special and won’t get processed by Jekyll. As a result, it won’t appear in the build directory, _site/.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Um ein eigenes Theme zu erstellen oder Jekyl weiter zu konfigurieren steht die sehr ausführliche Dokumentation zur Verfügung - &lt;a href=&quot;https://jekyllrb.com/docs/&quot;&gt;jekyllrb.com/docs/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Des Weiteren kann unter anderem über den Webdienst &lt;a href=&quot;https://ifttt.com/&quot;&gt;IFTTT&lt;/a&gt; eine Verbindung vom Blog RSS Feed mit Twitter hergestellt werden. Damit wird ein Tweet abgesetzt, sobald ein neuer Beitrag auf dem Blog veröffentlicht wird. Eine Anleitung dazu findet sich in &lt;a href=&quot;https://ictsolved.github.io/auto-post-articles-from-jekyll-blog-to-social-sites/&quot;&gt;diesem Blog&lt;/a&gt;. Du kannst meinem Twitter Account gern folgen um über neue Blog Einträge von herzog.network benachrichtigt zu werden: &lt;a href=&quot;https://twitter.com/herzog_network&quot;&gt;twitter.com/herzog_network&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;veröffentlichen&quot;&gt;Veröffentlichen&lt;/h3&gt;
+
+&lt;p&gt;Zum Abschluss muss das in den letzten Schritten erstellte Template wieder in die Github Repository geladen werden, damit die Webseite über die in Github integrierte Jekyll Funktionalität generiert werden kann und danach über die gewünschte Domain erreichbar ist. Github unterstützt nicht alle Jekyll Plugins, wenn also ein Plugin in der lokalen Testumgebung funktioniert aber nicht über Github Pages, dann kann es daran liegen, dass es nicht untersützt wird. Ein Workaround dafür wäre, das &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_site&lt;/code&gt; Verzeichnis auch zu veröffentlichen und Github nicht das Generieren der Webseite übernehmen zu lassen.&lt;/p&gt;
+
+&lt;p&gt;In dem Jekyll Template, welches wir generiert haben, befindet sich keine Git Konfiguration. Diese können wir aus dem Ordner kopieren, den wir uns ganz am Anfang, in dem Abschnitt &lt;a href=&quot;#erste-schritte&quot;&gt;Erste Schritte&lt;/a&gt;, erstellt haben.&lt;/p&gt;
+
+&lt;p&gt;Beispiel:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -r /path/to/username.github.io/.git /dir/of/your/jekyll/site/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nachdem sich die &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.git&lt;/code&gt; Konfiguration in dem entsprechenden Verzeichnis befindet kann die Jekyll Seite übertragen werden.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd dir/of/your/jekyll/site
+git add --all
+git commit -m &quot;Initial jekyll commit&quot;
+git push -u origin main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Alternativ ist es möglich via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git init&lt;/code&gt; und &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git push --force&lt;/code&gt; die Repository aus dem Jekyll Verzeichniss neu zu initialisieren und zu überschreiben.
+&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;So long -&lt;br /&gt;
+herzog&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hast du Fragen oder Anregungen?&lt;br /&gt;
+&lt;a href=&quot;https://github.com/herzog-network/herzog-network.github.io/issues&quot;&gt;Erstelle ein Ticket auf GitHub&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/herzog_network&quot;&gt;frag mich auf Twitter&lt;/a&gt; oder&lt;br /&gt;
+&lt;a href=&quot;mailto:blog@herzog.network&quot;&gt;schreib mir eine E-Mail&lt;/a&gt;.&lt;/p&gt;</content><author><name>herzog</name><email>blog@herzog.network</email></author><category term="jekyll" /><category term="github" /><category term="herzog.network" /><category term="frontend" /><summary type="html">Wie bereits in meinem Eingangsbeitrag geschrieben, wird dieser Blog durch Jekyll generiert und über Github Pages veröffentlicht. Dieser Beitrag beschreibt die Schritte, die notwendig sind, um diese Funktionalität bereitzustellen und erklärt kurz die einzelnen Dienste.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.herzog.network/assets/images/featured/jekyll.png" /><media:content medium="image" url="https://blog.herzog.network/assets/images/featured/jekyll.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Hallo herzog.network !</title><link href="https://blog.herzog.network/hallo-herzog-network" rel="alternate" type="text/html" title="Hallo herzog.network !" /><published>2020-12-14T11:30:00+00:00</published><updated>2020-12-14T11:30:00+00:00</updated><id>https://blog.herzog.network/hallo-herzog-network</id><content type="html" xml:base="https://blog.herzog.network/hallo-herzog-network">&lt;p&gt;Hallo und herzlich Willkommen in meinem Blog auf herzog.network. Es wird sich der/die Ein/e oder Andere an dieser Stelle fragen, was herzog.network überhaupt ist. Dazu möchte ich mich und die Seite kurz vorstellen.&lt;/p&gt;
+
+&lt;p&gt;herzog.network ist ein “side project” eines Informatikers (herzog genannt) und soll als Plattform für Projekte sowie Spielwiese dienen. Dieser Blog dient dazu Projekte zu dokumentieren, Tutorials zu verfassen, Tipps und Links zu sammeln. Eben alles was es braucht um umgesetzte Arbeiten visuell festzuhalten. Dies hilft in Zukunft hoffentlich nicht nur mir persönlich eine bessere Erinnerung und Dokumentation über diese Arbeiten zu erhalten, sondern vielleicht auch dem/der Einen oder Anderen auf der Suche nach einer Lösung oder Beschreibung zu einem technischen Problem.&lt;/p&gt;
+
+&lt;p&gt;Der Blog wird bereitgestellt durch &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; und &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;. Wie dies genau umgesetzt wurde, werde ich in einem separaten Post dokumentieren.
+&lt;br /&gt;&lt;br /&gt;
+Ich habe mich bewusst gegen eine Self-Hosted Umgebung mit CMS (Content-Management-System) entschieden. Eine statische Seite, die auf Github gehostet wird, hat für mich folgende Vorteile:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Wartung:&lt;/strong&gt; Aktualisierungen und Wartung sind weitaus seltener erforderlich.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Leicht Anpassungen möglich:&lt;/strong&gt; Das Ändern des Erscheinungsbilds einer von Jekyll erstellten Website ist viel einfacher als das Ändern des Erscheinungsbilds einer WordPress oder Drupal Seite.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Versionierung:&lt;/strong&gt; Das Hosten auf GitHub Pages bedeutet, dass der Blog mit der visuellen Oberfläche von GitHub für die Git-Versionierung verknüpft ist, sodass die Änderungen am Blog verfolgt und bei Bedarf jederzeit zu einem früheren Status eines Blogposts, einer Seite oder der Website selbst zurückgesetzt werden kann.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Sicherheit:&lt;/strong&gt; Es gibt keine Datenbank, die geschützt werden muss.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Geschwindigkeit:&lt;/strong&gt; Minimale Website-Dateien und keine abzufragende Datenbank bedeuten eine schnellere Ladezeit der Seite.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Automatisiert wiederholte Aufgaben:&lt;/strong&gt; Jekyll macht es einfach, wiederholte Website-Aufgaben über sein „Template“-System zu automatisieren&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Kostenloses Hosting:&lt;/strong&gt; Hosting kostet Geld - nicht aber das Hosting über Github Pages.
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So long -&lt;br /&gt;
+herzog&lt;/p&gt;</content><author><name>herzog</name><email>blog@herzog.network</email></author><category term="herzog.network" /><summary type="html">Hallo und herzlich Willkommen in meinem Blog auf herzog.network. Es wird sich der/die Ein/e oder Andere an dieser Stelle fragen, was herzog.network überhaupt ist. Dazu möchte ich mich und die Seite kurz vorstellen.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.herzog.network/assets/images/featured/start.jpg" /><media:content medium="image" url="https://blog.herzog.network/assets/images/featured/start.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
