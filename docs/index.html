@@ -62,13 +62,11 @@
 
     <time datetime="2021-01-22T00:00:00+00:00" class="post-date">22 Jan 2021</time>
 
-    <p>Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen.. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.</p>
-
-<p>An dieser Stelle sei erwähnt, dass auch Parallels nicht die eierlegende Wollmilchsau ist und mich bereits das ein oder andere graue Haar gekostet hat. Unter anderem die Option “Platz freigeben …”, die ungenutzten Festplattenspeicher aus der virtuellen Maschine wieder für den Mac zur Verfügung stellen soll, hinterließ mich bereits zwei mal mit einer korrupten VM - hier half nur noch ein Backup aber dazu eventuell bei Gelegenheit mehr.</p>
+    <p>Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.</p>
 
 <p>Ich verwende Parallels um Windows Applikationen testen zu können oder Szenarien nachzustellen, für die ich eine Windows Umgebung benötige. Manchmal kommt es vor, dass ich eine dieser Parallels Gäste auf einem anderen Host, der zum Beispiel mit Linux läuft, benötige. Ein Neuinstallieren der Umgebung würde mit Updates und Software Installation deutlich länger dauern als ein Import eines vorhandenen Parallels Gast und eine Automatisierung macht aufgrund der Individualität der Gastbetriebssysteme keinen Sinn. Aufgrund dessen habe ich nach einer Lösung gesucht einen Parallels Gast in Virtualbox bereit zu stellen. Die Lösung ist gar nicht so kompliziert, hat aber zwei kleine Kniffe, die mich etwas Recherche gekostet haben.</p>
 
-<p>Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung <code class="language-plaintext highlighter-rouge">*.pvm</code> hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter <code class="language-plaintext highlighter-rouge">~/Documents/Parallels/</code>. Den Dateityp <code class="language-plaintext highlighter-rouge">*.pvm</code> kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als hdd Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.</p>
+<p>Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung <code class="language-plaintext highlighter-rouge">*.pvm</code> hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter <code class="language-plaintext highlighter-rouge">~/Documents/Parallels/</code>. Den Dateityp <code class="language-plaintext highlighter-rouge">*.pvm</code> kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als HDD Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.</p>
 
 <p>Am schnellsten geht dies über die Konsole:</p>
 
@@ -121,7 +119,7 @@ herzog</p>
       <footer class="footer">
         <small>
           &copy;
-          <time datetime="2021-01-22T22:25:16+00:00"
+          <time datetime="2021-01-22T22:43:21+00:00"
             >2021</time
           >. All rights reserved.
         </small>

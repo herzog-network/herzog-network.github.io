@@ -4,7 +4,7 @@
  <title>Blog @ herzog.network</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://blog.herzog.network/"/>
- <updated>2021-01-22T22:25:16+00:00</updated>
+ <updated>2021-01-22T22:43:21+00:00</updated>
  <id>https://blog.herzog.network</id>
  <author>
    <name>herzog</name>
@@ -17,13 +17,11 @@
    <link href="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren"/>
    <updated>2021-01-22T00:00:00+00:00</updated>
    <id>https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren</id>
-   <content type="html">&lt;p&gt;Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen.. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.&lt;/p&gt;
-
-&lt;p&gt;An dieser Stelle sei erwähnt, dass auch Parallels nicht die eierlegende Wollmilchsau ist und mich bereits das ein oder andere graue Haar gekostet hat. Unter anderem die Option “Platz freigeben …”, die ungenutzten Festplattenspeicher aus der virtuellen Maschine wieder für den Mac zur Verfügung stellen soll, hinterließ mich bereits zwei mal mit einer korrupten VM - hier half nur noch ein Backup aber dazu eventuell bei Gelegenheit mehr.&lt;/p&gt;
+   <content type="html">&lt;p&gt;Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.&lt;/p&gt;
 
 &lt;p&gt;Ich verwende Parallels um Windows Applikationen testen zu können oder Szenarien nachzustellen, für die ich eine Windows Umgebung benötige. Manchmal kommt es vor, dass ich eine dieser Parallels Gäste auf einem anderen Host, der zum Beispiel mit Linux läuft, benötige. Ein Neuinstallieren der Umgebung würde mit Updates und Software Installation deutlich länger dauern als ein Import eines vorhandenen Parallels Gast und eine Automatisierung macht aufgrund der Individualität der Gastbetriebssysteme keinen Sinn. Aufgrund dessen habe ich nach einer Lösung gesucht einen Parallels Gast in Virtualbox bereit zu stellen. Die Lösung ist gar nicht so kompliziert, hat aber zwei kleine Kniffe, die mich etwas Recherche gekostet haben.&lt;/p&gt;
 
-&lt;p&gt;Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/Documents/Parallels/&lt;/code&gt;. Den Dateityp &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als hdd Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.&lt;/p&gt;
+&lt;p&gt;Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/Documents/Parallels/&lt;/code&gt;. Den Dateityp &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als HDD Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.&lt;/p&gt;
 
 &lt;p&gt;Am schnellsten geht dies über die Konsole:&lt;/p&gt;
 
