@@ -4,13 +4,61 @@
  <title>Blog @ herzog.network</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://blog.herzog.network/"/>
- <updated>2020-12-19T18:05:05+00:00</updated>
+ <updated>2021-01-22T22:25:16+00:00</updated>
  <id>https://blog.herzog.network</id>
  <author>
    <name>herzog</name>
    <email>blog@herzog.network</email>
  </author>
 
+ 
+ <entry>
+   <title>Parallels: Windows VM zu Virtualbox konvertieren</title>
+   <link href="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren"/>
+   <updated>2021-01-22T00:00:00+00:00</updated>
+   <id>https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren</id>
+   <content type="html">&lt;p&gt;Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen.. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.&lt;/p&gt;
+
+&lt;p&gt;An dieser Stelle sei erwähnt, dass auch Parallels nicht die eierlegende Wollmilchsau ist und mich bereits das ein oder andere graue Haar gekostet hat. Unter anderem die Option “Platz freigeben …”, die ungenutzten Festplattenspeicher aus der virtuellen Maschine wieder für den Mac zur Verfügung stellen soll, hinterließ mich bereits zwei mal mit einer korrupten VM - hier half nur noch ein Backup aber dazu eventuell bei Gelegenheit mehr.&lt;/p&gt;
+
+&lt;p&gt;Ich verwende Parallels um Windows Applikationen testen zu können oder Szenarien nachzustellen, für die ich eine Windows Umgebung benötige. Manchmal kommt es vor, dass ich eine dieser Parallels Gäste auf einem anderen Host, der zum Beispiel mit Linux läuft, benötige. Ein Neuinstallieren der Umgebung würde mit Updates und Software Installation deutlich länger dauern als ein Import eines vorhandenen Parallels Gast und eine Automatisierung macht aufgrund der Individualität der Gastbetriebssysteme keinen Sinn. Aufgrund dessen habe ich nach einer Lösung gesucht einen Parallels Gast in Virtualbox bereit zu stellen. Die Lösung ist gar nicht so kompliziert, hat aber zwei kleine Kniffe, die mich etwas Recherche gekostet haben.&lt;/p&gt;
+
+&lt;p&gt;Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/Documents/Parallels/&lt;/code&gt;. Den Dateityp &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.pvm&lt;/code&gt; kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als hdd Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.&lt;/p&gt;
+
+&lt;p&gt;Am schnellsten geht dies über die Konsole:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp ~/Documents/Parallels/Windows.pvm/Windows-0.hdd/Windows-0.hdd.0.\{uid\}.hds ./windows.hdd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Alternativ kann man im Finder innerhalb des Paket navigieren, indem man mit einem Rechtsklick, auf der PVM Datei, die Option “Paketinhalt anzeigen” wählt, sich die entsprechende HDS Datei daraus kopiert und entsprechend umbenennt. Wichtig ist, dass man innerhalb der Paralles Datei zwei Ebenen nach unten gehen muss, um die HDS Datei zu finden.
+&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;&lt;img src=&quot;/assets/images/posts/packagecontent.gif&quot; alt=&quot;Package Content&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;Diese Datei kann nun als Disk Image in Virtualbox hinterlegt werden. Nachdem das Disk Image in Virtualbox eingebunden wurde kann eine neue virtuelle Maschine erstellt werden.
+&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;&lt;img src=&quot;/assets/images/posts/vbox_create_image.png&quot; alt=&quot;Virtualbox Image&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;Wenn Virtualbox den Start des neuen Gastbetriebssystem mit dem Error Code &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FATAL: INT18: BOOT FAILURE&lt;/code&gt; verweigert, dann muss in den Einstellungen des Gast unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;System/Motherboard&lt;/code&gt; die Option “Enable EFI” aktiviert werden.
+&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;&lt;img src=&quot;/assets/images/posts/vbox_enable_efi.png&quot; alt=&quot;Virtualbox EFI&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;Sollte das Gastsystem den Start immer noch mit einem Blackscreen quittieren hilft es einen anderen Graphics Controller zu verwenden.
+&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;&lt;img src=&quot;/assets/images/posts/vbox_graphics_controller.png&quot; alt=&quot;Virtualbox Graphics Controller&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;Sobald Windows erfolgreich gestartet wurde, können abschließend noch die Parallels Tool deinstalliert und die Virtualbox Guest Additions installieren werden.
+&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;
+So long -&lt;br /&gt;
+herzog&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hast du Fragen oder Anregungen?&lt;br /&gt;
+&lt;a href=&quot;https://github.com/herzog-network/herzog-network.github.io/issues&quot;&gt;Erstelle ein Ticket auf GitHub&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/herzog_network&quot;&gt;frag mich auf Twitter&lt;/a&gt; oder&lt;br /&gt;
+&lt;a href=&quot;mailto:blog@herzog.network&quot;&gt;schreib mir eine E-Mail&lt;/a&gt;.&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Jekyll und GitHub Actions: Source Code in private Repository auslagern</title>
