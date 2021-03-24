@@ -1,4 +1,156 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.herzog.network/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.herzog.network/" rel="alternate" type="text/html" /><updated>2021-01-22T22:43:21+00:00</updated><id>https://blog.herzog.network/feed.xml</id><title type="html">Blog @ herzog.network</title><author><name>herzog</name><email>blog@herzog.network</email></author><entry><title type="html">Parallels: Windows VM zu Virtualbox konvertieren</title><link href="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren" rel="alternate" type="text/html" title="Parallels: Windows VM zu Virtualbox konvertieren" /><published>2021-01-22T00:00:00+00:00</published><updated>2021-01-22T00:00:00+00:00</updated><id>https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren</id><content type="html" xml:base="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren">&lt;p&gt;Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.herzog.network/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.herzog.network/" rel="alternate" type="text/html" /><updated>2021-03-24T05:25:04+00:00</updated><id>https://blog.herzog.network/feed.xml</id><title type="html">Blog @ herzog.network</title><author><name>herzog</name><email>blog@herzog.network</email></author><entry><title type="html">OpenVPN via SSH Tunnel</title><link href="https://blog.herzog.network/openvpn-via-ssh-tunnel" rel="alternate" type="text/html" title="OpenVPN via SSH Tunnel" /><published>2021-03-23T00:00:00+00:00</published><updated>2021-03-23T00:00:00+00:00</updated><id>https://blog.herzog.network/openvpn-via-ssh-tunnel</id><content type="html" xml:base="https://blog.herzog.network/openvpn-via-ssh-tunnel">&lt;p&gt;Nur ganz kurz als reine Dokumentation ohne viel Erklärung.&lt;br /&gt;
+OpenVPN Verbindung zwischen zwei Debian10 Hosts durch einen SSH Tunnel.&lt;/p&gt;
+
+&lt;p&gt;Bei dieser Konfiguration wurde wenig auf Hardening geachtet, da die Server durch eine Firewall nur sehr eingeschränkt kommunizieren dürfen. Certificate Authority sollte man grundlegend natürlich nicht auf dem OpenVPN Server betreiben. Des Weiteren können unterschiedliche Clients die gleichen Zertifikate nutzen (duplicate-cn). Diese Punkte und weitere Überlegungen sollten bei einem eventuellen produktiven Betrieb beachtet und optimiert werden.&lt;/p&gt;
+
+&lt;h3 id=&quot;server&quot;&gt;Server&lt;/h3&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano /etc/sysctl.conf
+    # Uncomment the next line to enable packet forwarding for IPv4
+    net.ipv4.ip_forward=1
+sysctl -p
+cd ~
+apt update &amp;amp;&amp;amp; apt install openvpn iptables-persistent -y
+wget -P ~/ https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+tar xvf EasyRSA-3.0.8.tgz
+cd EasyRSA-3.0.8
+cp vars.example vars
+nano vars
+    set_var EASYRSA_REQ_COUNTRY     &quot;US&quot;
+    set_var EASYRSA_REQ_PROVINCE    &quot;California&quot;
+    set_var EASYRSA_REQ_CITY        &quot;San Francisco&quot;
+    set_var EASYRSA_REQ_ORG &quot;Copyleft Certificate Co&quot;
+    set_var EASYRSA_REQ_EMAIL       &quot;dont@email.me&quot;
+    set_var EASYRSA_REQ_OU          &quot;My Organizational Unit&quot;
+./easyrsa init-pki
+./easyrsa build-ca nopass
+./easyrsa gen-req server nopass
+./easyrsa sign-req server server
+./easyrsa gen-dh
+./easyrsa gen-dh
+openvpn --genkey --secret ta.key
+cp ta.key /etc/openvpn/
+cp pki/ca.crt /etc/openvpn/
+cp pki/private/server.key /etc/openvpn/
+cp pki/issued/server.crt /etc/openvpn/
+cp pki/dh.pem /etc/openvpn/
+./easyrsa gen-req client nopass
+./easyrsa sign-req client client
+cp pki/ca.crt /etc/openvpn/client/
+cp pki/issued/client.crt /etc/openvpn/client/
+cp pki/private/client.key /etc/openvpn/client/
+## ggf Interface anpassen:
+iptables -t nat -A POSTROUTING -s 172.9.0.0/24 -o eth0 -j MASQUERADE
+iptables-save &amp;gt; /etc/iptables/rules.v4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;etcopenvpnserverconf&quot;&gt;/etc/openvpn/server.conf&lt;/h3&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;port 443
+proto tcp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+server 172.9.0.0 255.255.255.0
+push &quot;redirect-gateway def1 bypass-dhcp&quot;
+push &quot;dhcp-option DNS 208.67.222.222&quot;
+push &quot;dhcp-option DNS 208.67.220.220&quot;
+keepalive 10 120
+tls-auth ta.key 0
+cipher AES-256-CBC
+user nobody
+group nogroup
+persist-key
+persist-tun
+status /var/log/openvpn/openvpn-status.log
+log         /var/log/openvpn/openvpn.log
+log-append  /var/log/openvpn/openvpn.log
+duplicate-cn
+verb 3
+explicit-exit-notify 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;client&quot;&gt;Client&lt;/h3&gt;
+&lt;p&gt;Folgende Dateien vom Server auf den Client übertragen und unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/openvpn&lt;/code&gt; ablegen&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/openvpn/client/ca.crt .
+/etc/openvpn/client/client.crt .
+/etc/openvpn/client/client.key .
+/etc/openvpn/ta.key .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## Key generieren und pub key auf server hinterlegen
+ssh-keygen -t rsa -b 4096
+
+apt update &amp;amp;&amp;amp; apt install openvpn iptables-persistent autossh -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;WICHTIG:&lt;br /&gt;
+Es muss zwingend eine Route für den SSH Tunnel hinterlegt werden, da OpenVPN ansonsten alle Verbindungen blockt, der SSH Tunnel seine Route verliert und in Folge dessen auch die VPN Verbindung sofort nach dem Aufbau wieder abbricht.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nano /etc/network/if-up.d/sshtun
+
+#!/bin/sh
+# ovpnserver und default_gw
+# mit den entsprechenden IP Adressen ersetzen und ggf Interface anpassen
+if [ &quot;$IFACE&quot; = &quot;ens32&quot; ]; then
+    ip route add ovpnserver via default_gw
+fi
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;etcopenvpnclientconf&quot;&gt;/etc/openvpn/client.conf&lt;/h3&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;client
+dev tun
+proto tcp
+remote localhost 443
+resolv-retry infinite
+nobind
+user nobody
+group nogroup
+persist-key
+persist-tun
+ca ca.crt
+cert client.crt
+key client.key
+remote-cert-tls server
+tls-auth ta.key 1
+cipher AES-256-CBC
+script-security 2
+up /etc/openvpn/update-resolv-conf
+down /etc/openvpn/update-resolv-conf
+verb 3
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;dienste-starten&quot;&gt;Dienste starten&lt;/h3&gt;
+&lt;p&gt;Server&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start openvpn@server
+systemctl enable openvpn@server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Client&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## via crontab einbinden:
+autossh -M 0 -o &quot;ServerAliveInterval 30&quot; -o &quot;ServerAliveCountMax 3&quot; -f root@ovpnserver -N -L 443:localhost:443
+
+systemctl start openvpn@client
+systemctl enable openvpn@client
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;weiterführendes&quot;&gt;Weiterführendes&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://openvpn.net/community/&lt;/li&gt;
+  &lt;li&gt;https://www.harding.motd.ca/autossh/&lt;/li&gt;
+  &lt;li&gt;https://www.mybluelinux.com/debian-permanent-static-routes/&lt;/li&gt;
+  &lt;li&gt;https://github.com/sshuttle/sshuttle - Mögliche Alternative (ungetestet)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;
+So long -&lt;br /&gt;
+herzog&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Hast du Fragen oder Anregungen?&lt;br /&gt;
+&lt;a href=&quot;https://github.com/herzog-network/herzog-network.github.io/issues&quot;&gt;Erstelle ein Ticket auf GitHub&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/herzog_network&quot;&gt;frag mich auf Twitter&lt;/a&gt; oder&lt;br /&gt;
+&lt;a href=&quot;mailto:blog@herzog.network&quot;&gt;schreib mir eine E-Mail&lt;/a&gt;.&lt;/p&gt;</content><author><name>herzog</name><email>blog@herzog.network</email></author><category term="openvpn" /><category term="ssh" /><category term="autossh" /><category term="network" /><summary type="html">Nur ganz kurz als reine Dokumentation ohne viel Erklärung. OpenVPN Verbindung zwischen zwei Debian10 Hosts durch einen SSH Tunnel.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.herzog.network/assets/images/featured/openvpn-ssh.png" /><media:content medium="image" url="https://blog.herzog.network/assets/images/featured/openvpn-ssh.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Parallels: Windows VM zu Virtualbox konvertieren</title><link href="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren" rel="alternate" type="text/html" title="Parallels: Windows VM zu Virtualbox konvertieren" /><published>2021-01-22T00:00:00+00:00</published><updated>2021-01-22T00:00:00+00:00</updated><id>https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren</id><content type="html" xml:base="https://blog.herzog.network/parallels-windows-vm-zu-virtualbox-konvertieren">&lt;p&gt;Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.&lt;/p&gt;
 
 &lt;p&gt;Ich verwende Parallels um Windows Applikationen testen zu können oder Szenarien nachzustellen, für die ich eine Windows Umgebung benötige. Manchmal kommt es vor, dass ich eine dieser Parallels Gäste auf einem anderen Host, der zum Beispiel mit Linux läuft, benötige. Ein Neuinstallieren der Umgebung würde mit Updates und Software Installation deutlich länger dauern als ein Import eines vorhandenen Parallels Gast und eine Automatisierung macht aufgrund der Individualität der Gastbetriebssysteme keinen Sinn. Aufgrund dessen habe ich nach einer Lösung gesucht einen Parallels Gast in Virtualbox bereit zu stellen. Die Lösung ist gar nicht so kompliziert, hat aber zwei kleine Kniffe, die mich etwas Recherche gekostet haben.&lt;/p&gt;
 

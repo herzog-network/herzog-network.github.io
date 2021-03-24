@@ -26,7 +26,7 @@
 <link rel="prev" href="https://blog.herzog.network/" />
 <link rel="next" href="https://blog.herzog.network/page3" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"Home","url":"https://blog.herzog.network/page2/","author":{"@type":"Person","name":"herzog"},"@context":"https://schema.org"}</script>
+{"@type":"WebPage","headline":"Home","author":{"@type":"Person","name":"herzog"},"url":"https://blog.herzog.network/page2/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link type="application/atom+xml" rel="alternate" href="https://blog.herzog.network/feed.xml" title="Blog @ herzog.network" />
@@ -56,150 +56,43 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/jekyll-und-github-actions-source-code-in-private-repository-auslagern">
-        Jekyll und GitHub Actions: Source Code in private Repository auslagern
+      <a href="/parallels-windows-vm-zu-virtualbox-konvertieren">
+        Parallels: Windows VM zu Virtualbox konvertieren
       </a>
     </h1>
 
-    <time datetime="2020-12-19T00:00:00+00:00" class="post-date">19 Dec 2020</time>
+    <time datetime="2021-01-22T00:00:00+00:00" class="post-date">22 Jan 2021</time>
 
-    <blockquote>
-  <p>“Ich denke, dass jede allgemein nützliche Information frei sein sollte. Mit ‘frei’ beziehe ich mich nicht auf den Preis, sondern auf die Freiheit, Informationen zu kopieren und für die eigenen Zwecke anpassen zu können. Wenn Informationen allgemein nützlich sind, wird die Menschheit durch ihre Verbreitung reicher, ganz egal, wer sie weiter gibt und wer sie erhält.”</p>
-</blockquote>
+    <p>Parallels Desktop ist eine Desktop-Virtualisierungssoftware, mit der Microsoft Windows-, Linux- und Google Chrome-Betriebssysteme und -Anwendungen auf einem Apple Mac-Computer ausgeführt werden können. Die Software integriert das Gastbetriebssystem in Mac OS X und ermöglicht so die Leistung des nativen Betriebssystems nutzen zu können. Die Performance und Integration von Parallels unter Mac OS X bietet diverse Vorteile gegenüber anderen Virtualisierungslösungen. Wenn man sich Benchmark Tests zwischen Parallels und anderen Virtualisierungslösungen unter Mac OS X ansieht, dann liegt Parallels bei den Ergebnissen meist auf dem ersten Platz.</p>
 
-<p align="right">- Richard Stallman</p>
+<p>Ich verwende Parallels um Windows Applikationen testen zu können oder Szenarien nachzustellen, für die ich eine Windows Umgebung benötige. Manchmal kommt es vor, dass ich eine dieser Parallels Gäste auf einem anderen Host, der zum Beispiel mit Linux läuft, benötige. Ein Neuinstallieren der Umgebung würde mit Updates und Software Installation deutlich länger dauern als ein Import eines vorhandenen Parallels Gast und eine Automatisierung macht aufgrund der Individualität der Gastbetriebssysteme keinen Sinn. Aufgrund dessen habe ich nach einer Lösung gesucht einen Parallels Gast in Virtualbox bereit zu stellen. Die Lösung ist gar nicht so kompliziert, hat aber zwei kleine Kniffe, die mich etwas Recherche gekostet haben.</p>
 
-<p>Wer sein Wissen teilt, verschenkt nichts und muss nicht befürchten, dass andere ihn dadurch überholen. Manchmal ist es allerdings notwendig Informationen zu schützen. Diese Informationen sind in der Softwareentwicklung unter anderem der Source Code, den man aus verschiedenen Gründen schützen möchte.</p>
+<p>Das durch Parallels erstellte Gastbetriebssystem ist in einem Paket mit der Endung <code class="language-plaintext highlighter-rouge">*.pvm</code> hinterlegt. Das Default Verzeichnis, in dem diese Pakete abgelegt werden, befindet sich unter <code class="language-plaintext highlighter-rouge">~/Documents/Parallels/</code>. Den Dateityp <code class="language-plaintext highlighter-rouge">*.pvm</code> kann Virtualbox nicht importieren. Allerdings befindet sich innerhalb dieses Verzeichnis eine HDS Datei die wir kopieren und als HDD Datei ablegen können, um sie anschließend in Virtualbox als Festplatte einzubinden.</p>
 
-<ul>
-  <li>Entwürfe oder “WiP Code” sollen nicht veröffentlich werden</li>
-  <li>Material Dritter / Lizenzierter Code muss geschützt werden</li>
-</ul>
+<p>Am schnellsten geht dies über die Konsole:</p>
 
-<p>Dieses Vorgehen schützt unseren Source Code nicht vor Wiederverwendung. Bei clientseitigen Skriptsprachen, die von Jekyll verwendet werden, muss die Sprache vom Webbrowser interpretiert werden. Die Daten müssen beim Webbrowser ankommen. Diese Daten kann man auf mehrere Arten und Weisen abfangen, manchmal bietet der Browser sogar Möglichkeiten an, auf den Quellcode zuzugreifen. Um seinen Code effizient zu schützen nutzt man das Urheberrecht und entsprechende Lizenzierungen.</p>
-
-<p>Wichtig zu wissen ist auch, dass GitHub bereits die Funktionalität bietet, seine über GitHub Pages gehostete Webseite, in einer privaten Repository zu erstellen. Dadurch ist der Source Code privat und GitHub Pages wird ausschließlich die Webseite bauen und veröffentlichen. Diese Funktionalität bietet allerdings nur der Pro Plan von GitHub. Die hier beschriebene Vorgehensweise kann auch im Free Plan eingesetzt werden. Da wir unsere Webseite über <a href="https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions">GitHub Actions</a>, mit einem selbst konfigurierten Build Agent, generieren lassen, unterliegen wir auch nicht den Beschränkungen, denen durch GitHub Pages generierte Webseiten unterliegen.</p>
-
-<blockquote>
-  <p>GitHub Pages cannot build sites using unsupported plugins. If you want to use unsupported plugins, generate your site locally and then push your site’s static files to GitHub.</p>
-</blockquote>
-
-<h3 id="abhängigkeiten">Abhängigkeiten</h3>
-
-<ul>
-  <li><a href="#jekyll-projekt">Jekyll Projekt</a></li>
-  <li><a href="#github-token">GitHub Token</a></li>
-  <li><a href="#private-github-repository">Private GitHub Repository</a></li>
-  <li><a href="#public-github-repository">Public GitHub Repository</a></li>
-  <li><a href="#github-actions">GitHub Actions</a></li>
-</ul>
-
-<h3 id="jekyll-projekt">Jekyll Projekt</h3>
-
-<p>Dieser Beitrag setzt voraus, dass ein vorhandenes Jekyll Projekt existiert. Sollte solch ein Projekt nicht bestehen, dann kann man aus meinem Blogeintrag - <a href="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen#lokaler-jekyll-server">Jekyll und GitHub Pages: Deine erste Webseite</a> entsprechende Informationen beziehen, wie ein Jekyll Projekt initialisiert wird.</p>
-
-<h3 id="github-token">GitHub Token</h3>
-
-<p>Um die durch Jekyll generierten Daten aus unserem Source Code von der privaten zur öffentlichen Repository zu übertragen benötigen wir einen Token mit Schreibrechten auf unsere Repositories und Rechten auf den Workflow zuzugreifen. Wie solch ein Token erstellt wird kann den <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token">GitHub Docs entnommen werden</a>. Den erhaltenen Token brauchen wir um im nächsten Schritt ein sogenanntes Secret für die private Repository zu erstellen. Die Rechte für den Token sehen wie folgt aus:</p>
-
-<p><img src="/assets/images/posts/github-access-token.png" alt="github-access-token.png" title="GitHub Access Token" /></p>
-
-<h3 id="private-github-repository">Private GitHub Repository</h3>
-
-<p>Die Repository für den Source Code wird als private Repository erstellt.</p>
-
-<p><img src="/assets/images/posts/create-private-repository.png" alt="create-private-repository" title="Create private Repository" /></p>
-
-<p>Und das lokal vorliegende Jekyll Projekt mit der erstellten Repository initalisiert.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd dir/of/your/jekyll/site
-git init
-git add .
-git commit -m "first commit"
-git branch -M master
-git remote add origin https://github.com/herzog-network/jekyll_source.git
-git push -u origin master
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp ~/Documents/Parallels/Windows.pvm/Windows-0.hdd/Windows-0.hdd.0.\{uid\}.hds ./windows.hdd
 </code></pre></div></div>
 
-<p>Abschließend muss noch ein Secret für die Respository erstellt werden. Der Name des Secret lautet <code class="language-plaintext highlighter-rouge">JEKYLL_TOKEN</code> und der Inhalt ist der Token, der im Abschnitt <a href="#github-token">GitHub Token</a>, erstellt wurde. Mit diesem Secret können wir uns im Workflow, nachdem die Webseite generiert wurde, gegenüber der öffentlichen Repository authentifizieren und die generierten Daten übertragen. Unser Token wird als Secret verschlüsselt und ist in den Build Logs des Workflow nicht zu sehen. Weitere Informationen zu den <a href="https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets">GitHub Action Secrets</a>.</p>
+<p>Alternativ kann man im Finder innerhalb des Paket navigieren, indem man mit einem Rechtsklick, auf der PVM Datei, die Option “Paketinhalt anzeigen” wählt, sich die entsprechende HDS Datei daraus kopiert und entsprechend umbenennt. Wichtig ist, dass man innerhalb der Paralles Datei zwei Ebenen nach unten gehen muss, um die HDS Datei zu finden.
+<br /></p>
+<center><img src="/assets/images/posts/packagecontent.gif" alt="Package Content" /></center>
 
-<p><img src="/assets/images/posts/github-repo-secret.png" alt="github-repo-secret" title="GitHub Repo Secret" /></p>
+<p>Diese Datei kann nun als Disk Image in Virtualbox hinterlegt werden. Nachdem das Disk Image in Virtualbox eingebunden wurde kann eine neue virtuelle Maschine erstellt werden.
+<br /></p>
+<center><img src="/assets/images/posts/vbox_create_image.png" alt="Virtualbox Image" /></center>
 
-<h3 id="public-github-repository">Public GitHub Repository</h3>
+<p>Wenn Virtualbox den Start des neuen Gastbetriebssystem mit dem Error Code <code class="language-plaintext highlighter-rouge">FATAL: INT18: BOOT FAILURE</code> verweigert, dann muss in den Einstellungen des Gast unter <code class="language-plaintext highlighter-rouge">System/Motherboard</code> die Option “Enable EFI” aktiviert werden.
+<br /></p>
+<center><img src="/assets/images/posts/vbox_enable_efi.png" alt="Virtualbox EFI" /></center>
 
-<p>Die durch Jekyll generierte Webseite wird in einer öffentlichen Repository abgelegt. Die Voraussetzungen für die Erstellung dieser Repository habe ich bereits <a href="https://blog.herzog.network/webseiten-mit-jekyll-und-github-pages-erstellen#github-repository">in diesem Beitrag</a> beschrieben. Abweichend von dieser Beschreibung wird die Source Directory für die GitHub Page angepasst und auf <code class="language-plaintext highlighter-rouge">docs/</code> festgelegt.</p>
+<p>Sollte das Gastsystem den Start immer noch mit einem Blackscreen quittieren hilft es einen anderen Graphics Controller zu verwenden.
+<br /></p>
+<center><img src="/assets/images/posts/vbox_graphics_controller.png" alt="Virtualbox Graphics Controller" /></center>
 
-<p><img src="/assets/images/posts/github-pages-repo-source.png" alt="github-pages-repo-source" title="Github Pages Repo Source" /></p>
-
-<h3 id="github-actions">GitHub Actions</h3>
-
-<p>Aktuell weist der beschriebene Aufbau noch keine Logik auf, die unser Jekyll Projekt, innerhalb der privaten Repository, baut und in die öffentliche Repository überträgt. Zu diesem Zweck kommen <a href="https://github.com/features/actions">GitHub Actions</a> zum Einsatz.</p>
-
-<blockquote>
-  <p>GitHub Actions makes it easy to automate all your software workflows, now with world-class CI/CD. Build, test, and deploy your code right from GitHub. Make code reviews, branch management, and issue triaging work the way you want.</p>
-</blockquote>
-
-<p>Um einen Job innerhalb eines GitHub Workflow auszuführen benötigen wir in unserem Projekt eine entsprechende Workflow Struktur und eine YAML Datei die die Schritte, zur Ausführung innerhalb des Job, beschreibt.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd dir/of/your/jekyll/site
-mkdir -p .github/workflows
-touch .github/workflows/jekyll-build.yml
-</code></pre></div></div>
-<p>Untenstehend habe ich den Code meiner <code class="language-plaintext highlighter-rouge">jekyll-build.yml</code> Datei bereitgestellt. Diese kann nach Belieben angepasst werden. Zwingend angepasst werden müssen die Werte <code class="language-plaintext highlighter-rouge">REPO_URL</code>, <code class="language-plaintext highlighter-rouge">REPO_NAME</code>, <code class="language-plaintext highlighter-rouge">USER</code> und <code class="language-plaintext highlighter-rouge">E_MAIL</code>, die als Environment Variablen für den Job gesetzt sind. <code class="language-plaintext highlighter-rouge">REPO_URL</code> und <code class="language-plaintext highlighter-rouge">REPO_NAME</code> müssen mit den Werten der öffentlichen Repository angepasst werden.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name: jekyll-build
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Install
-        run: |
-          sudo gem install jekyll
-          sudo gem install bundler -v '2.1.4'
-          sudo bundle -v
-          sudo bundle install
-      - name: Clean up
-        run: |
-          if [ -d "_site" ]; then
-            rm -rf _site/*
-          fi
-      - name: Build
-        run:
-          bundle exec jekyll build -d _site
-      - name: Deploy
-        env:
-          JEKYLL_TOKEN: ${{ secrets.JEKYLL_TOKEN }}
-          REPO_URL: github.com/herzog-network/herzog-network.github.io.git
-          REPO_NAME: herzog-network.github.io
-          USER: herzog-network
-          E_MAIL: 75946937+herzog-network@users.noreply.github.com
-        run: |
-          mkdir build &amp;&amp; cd build
-          git clone https://$USER:$JEKYLL_TOKEN@$REPO_URL
-          cd $REPO_NAME &amp;&amp; cp -r ../../_site/* docs/
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "$E_MAIL"
-          git add .
-          git commit -m "jekyll-build: ${{ github.event.head_commit.message }}"
-          git push https://$USER:$JEKYLL_TOKEN@$REPO_URL
-</code></pre></div></div>
-
-<p>Sobald die lokale Repository vorbereitet ist und in die private GitHub Repository übertragen wird, generiert der definierte Workflow unsere Jekyll Webseite und überträgt alle Daten in unsere öffentliche Repository, über die GitHub Pages unsere finale Webseite bereitstellt. In dem öffentlichen Repository befindet sich nun ein Ordner Docs, mit allen durch Jekyll generierten Daten. Der Source Code bleibt in der privaten Repository und ist somit vor ungewollten Einblicken geschützt.
-<br /><br /><br /></p>
-
-<p>So long -<br />
+<p>Sobald Windows erfolgreich gestartet wurde, können abschließend noch die Parallels Tool deinstalliert und die Virtualbox Guest Additions installieren werden.
+<br /><br /><br />
+So long -<br />
 herzog</p>
 
 <hr />
@@ -207,6 +100,7 @@ herzog</p>
 <p>Hast du Fragen oder Anregungen?<br />
 <a href="https://github.com/herzog-network/herzog-network.github.io/issues">Erstelle ein Ticket auf GitHub</a>, <a href="https://twitter.com/herzog_network">frag mich auf Twitter</a> oder<br />
 <a href="mailto:blog@herzog.network">schreib mir eine E-Mail</a>.</p>
+
 
   </article>
   
@@ -226,7 +120,7 @@ herzog</p>
       <footer class="footer">
         <small>
           &copy;
-          <time datetime="2021-01-22T22:43:21+00:00"
+          <time datetime="2021-03-24T05:25:04+00:00"
             >2021</time
           >. All rights reserved.
         </small>
